@@ -18,6 +18,9 @@ class ReelUserFactory extends Factory
     {
         return [
             //
+            'reel_id' => $this->faker->randomDigitNotNull,
+            'user_id' => $this->faker->randomDigitNotNull,
+
         ];
     }
 }

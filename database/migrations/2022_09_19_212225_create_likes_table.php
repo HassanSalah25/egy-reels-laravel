@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('reel_id');
             $table->boolean('active');
             $table->string('user_id');
-//            $table->string('user_id');
             $table->timestamps();
         });
     }

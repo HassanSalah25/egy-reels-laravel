@@ -18,6 +18,11 @@ class ReelFactory extends Factory
     {
         return [
             //
+            'name' => $this->faker->name,
+            'caption'	=> $this->faker->text,
+            'video_url'=> $this->faker->url,
+            'likes_count' => $this->faker->randomDigitNotNull,
+            'comments_count' => $this->faker->randomDigitNotNull,
         ];
     }
 }

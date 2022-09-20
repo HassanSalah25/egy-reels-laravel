@@ -18,6 +18,9 @@ class CommentUserFactory extends Factory
     {
         return [
             //
+            'comment_id' => $this->faker->randomDigitNotNull,
+            'user_id' => $this->faker->randomDigitNotNull,
+
         ];
     }
 }

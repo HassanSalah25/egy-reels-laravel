@@ -18,6 +18,9 @@ class RoleUserFactory extends Factory
     {
         return [
             //
+            'role_id' => $this->faker->randomDigitNotNull,
+            'user_id' => $this->faker->randomDigitNotNull,
+
         ];
     }
 }
