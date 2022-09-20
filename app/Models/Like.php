@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Like extends Model
 {
     use HasFactory;
+    protected $fillable =[
+        'reel_id',
+        'active',
+        'user_id',
+    ];
+
+
 }
