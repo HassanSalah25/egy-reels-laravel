@@ -14,12 +14,17 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public $incrementing = false;
+
+
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',
@@ -76,5 +81,17 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         // TODO: Implement getJWTCustomClaims() method.
+    }
+
+
+
+
+###########
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->uuid = IdGenerator::generate(['table' => $this->table, 'length' => 6, 'prefix' =>date('y')]);
+        });
     }
 }

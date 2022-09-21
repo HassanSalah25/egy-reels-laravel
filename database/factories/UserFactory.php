@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-
-/**
+ /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
 class UserFactory extends Factory
@@ -18,7 +18,8 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'google_id'=> Str::random(10),
+        'id' => IdGenerator::generate(['table' => 'users', 'length' => 6, 'prefix' => date('y')]),
+        'google_id'=> Str::random(10),
             'image'=> $this->faker->url,
             'gender' => $this->faker->boolean,
             'notify'=> $this->faker->boolean,

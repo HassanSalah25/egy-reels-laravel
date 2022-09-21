@@ -9,6 +9,10 @@ use App\Models\Comment;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 
+#########
+use Haruncpi\LaravelIdGenerator\IdGenerator;
+
+
 class UserController extends Controller
 {
     use GeneralTrait;
@@ -20,13 +24,27 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
+        $id = IdGenerator::generate(['table' => 'users', 'length' => 6, 'prefix' => date('y')]);
+
         //
-        User::create($request->validate([
-            'name'=> 'required',
-            'password'=> 'required',
-            'mobile'=> 'required',
-            'email' => 'required|unique:Students'
-        ]));
+//        User::create($request->validate([
+//            'name'=> 'required',
+//            'password'=> 'required',
+//            'mobile'=> 'required',
+//            'email' => 'required|unique:Students'
+//        ]));
+//
+
+    $user = new User();
+    $user->id = $id;
+    $user->name = $request->get('name');
+    $user->title = $request->get('password');
+    $user->mobile = $request->get('mobile');
+    $user->email = $request->get('email');
+    $user->save();
+
+
     }
 
     /**

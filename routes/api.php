@@ -17,9 +17,44 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-//Route::group(['middleware' => ['api-jwt'], 'namespace' => 'Api'], function () {
-//
-//    Route::group(['prefix' => 'user','namespace'=>'UserAuth'],function (){
-//        Route::post('login', [\App\Http\Controllers\Api\Auth\AuthController::class,'login']);
-//    });
-//});
+
+
+
+//all routes / api here must be api authenticated
+Route::group(['middleware' => ['api'], 'namespace' => 'Api'], function () {
+
+
+        Route::post('login', [AuthController::class,'login']);
+
+
+        Route::group(['prefix' => 'admin'],function () {
+
+            Route::post('show', [\App\Http\Controllers\API\UserController::class, 'index']);
+            Route::post('store', [\App\Http\Controllers\API\UserController::class, 'store']);
+            Route::post('update', [\App\Http\Controllers\API\UserController::class, 'update']);
+            Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'destroy']);
+        });
+
+
+        Route::group(['prefix' => 'reel'],function () {
+
+            Route::post('show', [\App\Http\Controllers\ReelController::class, 'index']);
+            Route::post('store', [\App\Http\Controllers\ReelController::class, 'store']);
+            Route::post('update', [\App\Http\Controllers\ReelController::class, 'update']);
+            Route::post('destroy', [\App\Http\Controllers\ReelController::class, 'destroy']);
+        });
+
+
+        Route::group(['prefix' => 'admin'],function () {
+
+            Route::post('show', [\App\Http\Controllers\API\UserController::class, 'index']);
+            Route::post('store', [\App\Http\Controllers\API\UserController::class, 'store']);
+            Route::post('update', [\App\Http\Controllers\API\UserController::class, 'update']);
+            Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'destroy']);
+        });
+
+
+
+
+    });
+
