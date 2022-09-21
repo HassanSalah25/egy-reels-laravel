@@ -35,7 +35,7 @@ class ReelController extends Controller
     {
         //
 
-        $reels =   Reel::all();
+        $reels = Reel::all();
         $reel =  ReelResource::collection($reels) ;
         return $this -> returnData('Table OF users allowd admins only!!',$reel);
 
