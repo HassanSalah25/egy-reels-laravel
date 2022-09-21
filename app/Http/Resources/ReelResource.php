@@ -14,6 +14,17 @@ class ReelResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+//        return parent::toArray($request);
+
+        return [
+            'ID' => $this->id,
+            'NAME' => $this->name,
+            'User' => $this->caption,
+            'VIDEO' => $this->video_url,
+            'LIKES' => $this->likes_count,
+            'COMMENTS' => $this->comments_count,
+             'Date' => $this->created_at,
+
+        ];
     }
 }

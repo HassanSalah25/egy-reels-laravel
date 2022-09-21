@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API;
+use App\Http\Resources\UserResource;
 use App\Models\Following;
 use App\Models\Like;
 use App\Models\User;
@@ -56,8 +57,14 @@ class UserController extends Controller
     public function show()
     {
         //
-        $user = User::all();
-        return $this -> returnData('users',$user);
+        $users =  User::all();
+        $user =  UserResource::collection($users) ;
+        return $this -> returnData('Table OF users allowd admins only!!',$user);
+
+//        return response()->json($user);
+
+//        return new UserResource( User::all());
+
     }
 
 
@@ -107,7 +114,10 @@ class UserController extends Controller
     }
     public function showComments()
     {
-        Comment::all();
+
+        $comments =  Comment::all();
+        $comment =  ReelResource::collection($comments) ;
+        return $this -> returnData('Table OF COMMENTS allowd admins only!!',$comment);
     }
     public function updateComment(Request $request, $id)
     {
@@ -133,7 +143,10 @@ class UserController extends Controller
     }
     public function showFollowings()
     {
-        Following::all();
+
+        $follows =   Following::all();
+        $follow =  UserResource::collection($follows) ;
+        return $this -> returnData('Table OF follows allowd admins only!!',$follow);
     }
     public function like(Request $request)
     {

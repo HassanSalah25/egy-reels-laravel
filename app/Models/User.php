@@ -14,7 +14,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public $incrementing = false;
+//    public $incrementing = false;
 
 
 
@@ -24,7 +24,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'id',
+//        'id',
         'name',
         'email',
         'password',
@@ -87,11 +87,14 @@ class User extends Authenticatable implements JWTSubject
 
 
 ###########
-    public static function boot()
-    {
-        parent::boot();
-        self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'length' => 6, 'prefix' =>date('y')]);
-        });
-    }
+//    public static function boot()
+//    {
+//        parent::boot();
+//        self::creating(function ($model) {
+//            $model->uuid = IdGenerator::generate( new User , 'id' ,  6,  'USER_#RD%_' );
+//        });
+//    }
+
+
+
 }
