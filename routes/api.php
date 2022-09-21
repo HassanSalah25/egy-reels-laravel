@@ -24,11 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['api'], 'namespace' => 'Api'], function () {
 
 
-//        Route::post('login', [AuthController::class,'login']);
+
 
 
         Route::group(['prefix' => 'admin'],function () {
-
             Route::post('show', [\App\Http\Controllers\API\UserController::class, 'show']);
             Route::post('store', [\App\Http\Controllers\API\UserController::class, 'store']);
             Route::post('update', [\App\Http\Controllers\API\UserController::class, 'update']);

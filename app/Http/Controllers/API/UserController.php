@@ -26,7 +26,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        $id = IdGenerator::generate(['table' => 'users', 'length' => 6, 'prefix' => date('y')]);
+//        $id = IdGenerator::generate(['table' => 'users', 'length' => 6, 'prefix' => date('y')]);
 
         //
 //        User::create($request->validate([
@@ -38,14 +38,18 @@ class UserController extends Controller
 //
 
     $user = new User();
-    $user->id = $id;
     $user->name = $request->get('name');
-    $user->title = $request->get('password');
-    $user->mobile = $request->get('mobile');
+    $user->email = $request->get('email');
+    $user->password = $request->get('password');
+    $user->phone = $request->get('phone');
+    $user->birthdate = $request->get('birthdate');
+    $user->image = $request->get('image');
+    $user->gender = $request->get('gender');
+    $user->notify = $request->get('notify');
     $user->email = $request->get('email');
     $user->save();
 
-
+    return $this -> returnData('user',$user);
     }
 
     /**
