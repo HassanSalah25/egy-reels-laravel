@@ -41,5 +41,10 @@ return [
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
         'redirect' => 'http://127.0.0.1:8000/facebook/callback'
     ],
+    'twitter' => [
+        'client_id' => 'xxxxxxxxxxxx',
+        'client_secret' => 'xxxxxxxxxxxx',
+        'redirect' => 'http://127.0.0.1:8000/auth/callback/twitter',
+    ],
 
 ];

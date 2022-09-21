@@ -25,7 +25,7 @@
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                        <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
                     @else
                         <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
 
@@ -41,6 +41,16 @@
             <a href="{{ route('google.logout') }}" class="btn btn-google btn-user btn-block">
                 <i class="fab fa-google fa-fw"></i> Logout with Google
             </a>
+            <a href="{{ route('facebook.login') }}" class="btn btn-facebook btn-user btn-block">
+                <i class="fab fa-facebook-f fa-fw"></i>
+                Login with Facebook
+             </a>
+             <div class="flex items-center justify-end mt-4">
+                <a class="btn" href="{{ url('auth/twitter') }}"
+                    style="background: #1E9DEA; padding: 10px; width: 100%; text-align: center; display: block; border-radius:4px; color: #ffffff;">
+                    Login with Twitter
+                </a>
+            </div>
             @if (Auth::user())
                 <p>{{ Auth::user()->name }}</p>
             @endif
