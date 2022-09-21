@@ -15,5 +15,13 @@ class Comment extends Model
 
     ];
 
-
+    /**
+     * Get all of the comments for the Comment
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class,'comment_users');
+    }
 }
