@@ -82,16 +82,19 @@ class User extends Authenticatable implements JWTSubject
     {
         // TODO: Implement getJWTCustomClaims() method.
     }
-
-
-
-
-###########
-    public static function boot()
-    {
-        parent::boot();
-        self::creating(function ($model) {
-            $model->uuid = IdGenerator::generate(['table' => $this->table, 'length' => 6, 'prefix' =>date('y')]);
-        });
+    public function isAdministrator() {
+        return $this->roles()->where('name', 'admin')->exists();
     }
+    public function verifyUser()
+    {
+        return $this->hasOne('App\VerifyUser');
+    }
+###########
+//    public static function boot()
+//    {
+//        parent::boot();
+//        self::creating(function ($model) {
+//            $model->uuid = IdGenerator::generate(['table' => $this->table, 'length' => 6, 'prefix' =>date('y')]);
+//        });
+//    }
 }

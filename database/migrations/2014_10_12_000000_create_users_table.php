@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('birthdate');
              $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->boolean('verified')->default(false);
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();

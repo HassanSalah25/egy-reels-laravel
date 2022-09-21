@@ -1,16 +1,19 @@
 <?php
 
 namespace App\Http\Controllers\API;
+use App\Mail\VerifyMail;
 use App\Models\Following;
 use App\Models\Like;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\VerifyUser;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 
 #########
 use Haruncpi\LaravelIdGenerator\IdGenerator;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
@@ -22,29 +25,86 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-
-        $id = IdGenerator::generate(['table' => 'users', 'length' => 6, 'prefix' => date('y')]);
-
-        //
-//        User::create($request->validate([
-//            'name'=> 'required',
-//            'password'=> 'required',
-//            'mobile'=> 'required',
-//            'email' => 'required|unique:Students'
-//        ]));
+//    public function store(Request $request)
+//    {
 //
+//        //$id = IdGenerator::generate(['table' => 'users', 'length' => 6, 'prefix' => date('y')]);
+//
+//        //
+////        User::create($request->validate([
+////            'name'=> 'required',
+////            'password'=> 'required',
+////            'mobile'=> 'required',
+////            'email' => 'required|unique:Students'
+////        ]));
+////
+//
+//    $user = new User();
+//    $user->name = $request->get('name');
+//    $user->password = $request->get('password');
+//    $user->phone = $request->get('phone');
+//    $user->image = $request->get('image');
+//    $user->gender = $request->get('gender');
+//    $user->notify = $request->get('notify');
+//    $user->email = $request->get('email');
+//    $user->birthdate = $request->get('birthdate');
+//    $user->save();
+//    return $this->returnData("user",$user);
+//
+//    }
+    protected function store(Request $request)
+    {
+        $user = User::create([
+            'id' => $request->get('id'),
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'phone' => $request->get('phone'),
+            'image' => $request->get('image'),
+            'gender' => $request->get('gender'),
+            'notify' => $request->get('notify'),
+            'birthdate' => $request->get('birthdate'),
+            'password' => Hash::make($request->get('password')),
+        ]);
 
-    $user = new User();
-    $user->id = $id;
-    $user->name = $request->get('name');
-    $user->title = $request->get('password');
-    $user->mobile = $request->get('mobile');
-    $user->email = $request->get('email');
-    $user->save();
+        $verifyUser = VerifyUser::create([
+            'user_id' => $user->id,
+            'token' => sha1(time())
+        ]);
+        \Mail::to($user->email)->send(new VerifyMail($user));
 
+        return $user;
+    }
 
+    protected function registered(Request $request, $user)
+    {
+        $this->guard()->logout();
+        return redirect('/login')->with('status', 'We sent you an activation code. Check your email and click on the link to verify.');
+    }
+
+    public function authenticated(Request $request, $user)
+    {
+        if (!$user->verified) {
+            auth()->logout();
+            return back()->with('warning', 'You need to confirm your account. We have sent you an activation code, please check your email.');
+        }
+        return redirect()->intended($this->redirectPath());
+    }
+    public function verifyUser($token)
+    {
+        $verifyUser = VerifyUser::where('token', $token)->first();
+        if(isset($verifyUser) ){
+            $user = $verifyUser->user;
+            if(!$user->verified) {
+                $verifyUser->user->verified = 1;
+                $verifyUser->user->save();
+                $status = "Your e-mail is verified. You can now login.";
+            } else {
+                $status = "Your e-mail is already verified. You can now login.";
+            }
+        } else {
+            return redirect('/login')->with('warning', "Sorry your email cannot be identified.");
+        }
+        return redirect('/login')->with('status', $status);
     }
 
     /**
@@ -71,14 +131,20 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $User = User::find($id);
-        $User->name = $request->name;
-        $User->password = $request->password;
-        $User->mobile = $request->mobile;
-        $User->email = $request->email;
-        $User->save();
-
+        $user = User::find($id);
+        $user->name = $request->get('name');
+        $user->password = $request->get('password');
+        $user->phone = $request->get('phone');
+        $user->image = $request->get('image');
+        $user->gender = $request->get('gender');
+        $user->notify = $request->get('notify');
+        $user->email = $request->get('email');
+        $user->birthdate = $request->get('birthdate');
+        $user->save();
+        return $this->returnData("user",$user);
     }
+
+
 
     /**
      * Remove the specified resource from storage.

@@ -18,7 +18,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-        'id' => IdGenerator::generate(['table' => 'users', 'length' => 6, 'prefix' => date('y')]),
+//        'id' => IdGenerator::generate(['table' => 'users', 'length' => 6, 'prefix' => date('y')]),
         'google_id'=> Str::random(10),
             'image'=> $this->faker->url,
             'gender' => $this->faker->boolean,

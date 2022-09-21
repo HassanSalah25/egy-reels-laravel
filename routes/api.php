@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 //all routes / api here must be api authenticated
-Route::group(['middleware' => ['api'], 'namespace' => 'Api'], function () {
+Route::group(['middleware' => ['api-jwt'], 'namespace' => 'Api'], function () {
 
 
         Route::post('login', [AuthController::class,'login']);
@@ -29,25 +29,25 @@ Route::group(['middleware' => ['api'], 'namespace' => 'Api'], function () {
 
         Route::group(['prefix' => 'admin'],function () {
 
-            Route::post('show', [\App\Http\Controllers\API\UserController::class, 'index']);
-            Route::post('store', [\App\Http\Controllers\API\UserController::class, 'store']);
-            Route::post('update', [\App\Http\Controllers\API\UserController::class, 'update']);
-            Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'destroy']);
+            Route::post('show', [\App\Http\Controllers\API\UserController::class, 'show'])-> middleware(['auth.guard:admin-api']);
+            Route::post('store', [\App\Http\Controllers\API\UserController::class, 'store'])-> middleware(['auth.guard:admin-api']);
+            Route::post('update', [\App\Http\Controllers\API\UserController::class, 'update'])-> middleware(['auth.guard:admin-api']);
+            Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'destroy'])-> middleware(['auth.guard:admin-api']);
         });
 
 
         Route::group(['prefix' => 'reel'],function () {
 
-            Route::post('show', [\App\Http\Controllers\ReelController::class, 'index']);
-            Route::post('store', [\App\Http\Controllers\ReelController::class, 'store']);
-            Route::post('update', [\App\Http\Controllers\ReelController::class, 'update']);
-            Route::post('destroy', [\App\Http\Controllers\ReelController::class, 'destroy']);
+            Route::post('show', [\App\Http\Controllers\ReelController::class, 'show'])-> middleware(['auth.guard:admin-api']);
+            Route::post('store', [\App\Http\Controllers\ReelController::class, 'store'])-> middleware(['auth.guard:admin-api']);
+            Route::post('update', [\App\Http\Controllers\ReelController::class, 'update'])-> middleware(['auth.guard:admin-api']);
+            Route::post('destroy', [\App\Http\Controllers\ReelController::class, 'destroy'])-> middleware(['auth.guard:admin-api']);
         });
 
 
-        Route::group(['prefix' => 'admin'],function () {
+        Route::group(['prefix' => 'user'],function () {
 
-            Route::post('show', [\App\Http\Controllers\API\UserController::class, 'index']);
+            Route::post('show', [\App\Http\Controllers\API\UserController::class, 'show']);
             Route::post('store', [\App\Http\Controllers\API\UserController::class, 'store']);
             Route::post('update', [\App\Http\Controllers\API\UserController::class, 'update']);
             Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'destroy']);
