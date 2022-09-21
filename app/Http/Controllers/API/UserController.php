@@ -6,6 +6,7 @@ use App\Models\Like;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 
 #########
@@ -14,6 +15,7 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class UserController extends Controller
 {
+    use GeneralTrait;
     /**
      * Store a newly created resource in storage.
      *
@@ -54,7 +56,8 @@ class UserController extends Controller
     public function show()
     {
         //
-        User::all();
+        $user = User::all();
+        return $this -> returnData('users',$user);
     }
 
 
