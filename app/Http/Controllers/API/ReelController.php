@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ReelResource;
 use App\Models\Reel;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,11 @@ class ReelController extends Controller
     public function show()
     {
         //
-        Reel::all();
+
+        $reels =   Reel::all();
+        $reel =  ReelResource::collection($reels) ;
+        return $this -> returnData('Table OF users allowd admins only!!',$reel);
+
     }
 
 
