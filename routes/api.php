@@ -24,12 +24,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['api'], 'namespace' => 'Api'], function () {
 
 
-        Route::post('login', [AuthController::class,'login']);
+
 
 
         Route::group(['prefix' => 'admin'],function () {
-
-            Route::post('show', [\App\Http\Controllers\API\UserController::class, 'index']);
+            Route::post('show', [\App\Http\Controllers\API\UserController::class, 'show']);
             Route::post('store', [\App\Http\Controllers\API\UserController::class, 'store']);
             Route::post('update', [\App\Http\Controllers\API\UserController::class, 'update']);
             Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'destroy']);
@@ -38,20 +37,12 @@ Route::group(['middleware' => ['api'], 'namespace' => 'Api'], function () {
 
         Route::group(['prefix' => 'reel'],function () {
 
-            Route::post('show', [\App\Http\Controllers\ReelController::class, 'index']);
+            Route::post('show', [\App\Http\Controllers\ReelController::class, 'show']);
             Route::post('store', [\App\Http\Controllers\ReelController::class, 'store']);
             Route::post('update', [\App\Http\Controllers\ReelController::class, 'update']);
             Route::post('destroy', [\App\Http\Controllers\ReelController::class, 'destroy']);
         });
 
-
-        Route::group(['prefix' => 'admin'],function () {
-
-            Route::post('show', [\App\Http\Controllers\API\UserController::class, 'index']);
-            Route::post('store', [\App\Http\Controllers\API\UserController::class, 'store']);
-            Route::post('update', [\App\Http\Controllers\API\UserController::class, 'update']);
-            Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'destroy']);
-        });
 
 
 

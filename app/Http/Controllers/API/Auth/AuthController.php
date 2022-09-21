@@ -40,12 +40,12 @@ class AuthController extends Controller
 
             $credentials = $request->only(['email', 'password']);
 
-            $token = Auth::guard('admin-api')->attempt($credentials);
+            $token = Auth::guard('api-jwt')->attempt($credentials);
 
             if (!$token)
                 return $this->returnError('E001', 'it is not valid!');
 
-            $admin = Auth::guard('admin-api')->user();
+            $admin = Auth::guard('api-jwt')->user();
             $admin->api_token = $token;
             //return token
             return $this->returnData('admin', $admin);
