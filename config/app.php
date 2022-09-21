@@ -197,7 +197,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
-
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
     ],
 
     /*
@@ -213,7 +213,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-
+        'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth'
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 

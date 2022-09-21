@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\API;
+use App\Models\Following;
+use App\Models\Like;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -30,7 +33,7 @@ class UserController extends Controller
      * @param  \App\Models\Reel  $reel
      * @return \Illuminate\Http\Response
      */
-    public function show(User $reel)
+    public function show()
     {
         //
         User::all();
@@ -66,6 +69,65 @@ class UserController extends Controller
     {
         //
         User::where('id', $id)->delete();
-        return redirect('students');
+    }
+
+    public function createComment(Request $request)
+    {
+        //
+        Comment::create($request->validate([
+            'reel_id'=> 'required',
+            'content'=> 'required'
+            ]));
+    }
+    public function destroyComment($id)
+    {
+        //
+        Comment::where('id', $id)->delete();
+    }
+    public function showComments()
+    {
+        Comment::all();
+    }
+    public function updateComment(Request $request, $id)
+    {
+        //
+        $comment = Comment::find($id);
+        $comment->reel_id = $request->reel_id;
+        $comment->content = $request->contents;
+        $comment->save();
+    }
+
+    public function followUser(Request $request)
+    {
+        //
+        Following::create($request->validate([
+                'user_id'=> 'required',
+                'duser_id'=> 'required',
+            ]));
+    }
+    public function removeFolloing($id)
+    {
+        //
+        Comment::where('fuser_id', $id)->delete();
+    }
+    public function showFollowings()
+    {
+        Following::all();
+    }
+    public function like(Request $request)
+    {
+        Like::create($request->validate([
+            'reel_id'=>'required',
+            'user_id'=>'required',
+            'active'=>'required',
+        ]));
+    }
+    public function unlike($id)
+    {
+        Like::where('id', $id)->delete();
+    }
+    public function showLikes($reel_id)
+    {
+        Like::find($reel_id);
     }
 }
