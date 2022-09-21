@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Models\Reel;
+namespace App\Http\Controllers\API;
+use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
-class ReelController extends Controller
+class UserController extends Controller
 {
     /**
      * Store a newly created resource in storage.
@@ -16,7 +17,7 @@ class ReelController extends Controller
     public function store(Request $request)
     {
         //
-        Reel::create($request->validate([
+        User::create($request->validate([
             'name'=> 'required',
             'password'=> 'required',
             'mobile'=> 'required',
@@ -33,7 +34,7 @@ class ReelController extends Controller
     public function show()
     {
         //
-        Reel::all();
+        User::all();
     }
 
 
@@ -47,12 +48,12 @@ class ReelController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $Reel = Reel::find($id);
-        $Reel->name = $request->name;
-        $Reel->password = $request->password;
-        $Reel->mobile = $request->mobile;
-        $Reel->email = $request->email;
-        $Reel->save();
+        $User = User::find($id);
+        $User->name = $request->name;
+        $User->password = $request->password;
+        $User->mobile = $request->mobile;
+        $User->email = $request->email;
+        $User->save();
 
     }
 
@@ -65,7 +66,17 @@ class ReelController extends Controller
     public function destroy($id)
     {
         //
-        Reel::where('id', $id)->delete();
-        return redirect('students');
+        User::where('id', $id)->delete();
+    }
+
+    public function createComment($body)
+    {
+        //
+        Comment::create();
+    }
+    public function destroyComment($id)
+    {
+        //
+        Comment::where('id', $id)->delete();
     }
 }
