@@ -26,7 +26,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',//jkjbjbk
+        'password',//jkjbj
         'twitter_id',
         'oauth_type',
         'google_id'
