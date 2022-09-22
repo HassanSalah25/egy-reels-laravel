@@ -140,7 +140,7 @@ class UserController extends Controller
                 'duser_id'=> 'required',
             ]));
     }
-    public function removeFolloing($id)
+    public function removeFollowing($id)
     {
         //
         Comment::where('fuser_id', $id)->delete();

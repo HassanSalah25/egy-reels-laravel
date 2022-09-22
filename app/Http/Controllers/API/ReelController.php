@@ -1,13 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\ReelResource;
 use App\Models\Reel;
+use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
+
 
 class ReelController extends Controller
 {
+    use GeneralTrait;
+
     /**
      * Store a newly created resource in storage.
      *
@@ -33,11 +38,12 @@ class ReelController extends Controller
      */
     public function show()
     {
-        //
 
         $reels = Reel::all();
         $reel =  ReelResource::collection($reels) ;
-        return $this -> returnData('Table OF users allowd admins only!!',$reel);
+//        return 'HOLAA!!!';
+        return $this -> returnData('Table OF Reels allowd admins only!!',$reel);
+
 
     }
 

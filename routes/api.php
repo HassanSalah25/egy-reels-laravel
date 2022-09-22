@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\API\ReelController;
+use App\Http\Controllers\API\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,15 +33,21 @@ Route::group(['middleware' => ['api'], 'namespace' => 'Api'], function () {
             Route::post('store', [\App\Http\Controllers\API\UserController::class, 'store']);
             Route::post('update', [\App\Http\Controllers\API\UserController::class, 'update']);
             Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'destroy']);
+//                showComments
+//                showFollowings
+//
+//                showLikes
+
         });
 
 
         Route::group(['prefix' => 'reel'],function () {
 
-            Route::post('show', [\App\Http\Controllers\ReelController::class, 'show']);
-            Route::post('store', [\App\Http\Controllers\ReelController::class, 'store']);
-            Route::post('update', [\App\Http\Controllers\ReelController::class, 'update']);
-            Route::post('destroy', [\App\Http\Controllers\ReelController::class, 'destroy']);
+            Route::post('show', [ReelController::class , 'show']);
+            Route::post('store', [ReelController::class, 'store']);
+            Route::post('update', [ReelController::class, 'update']);
+            Route::post('destroy', [ReelController::class, 'destroy']);
+
         });
 
 
