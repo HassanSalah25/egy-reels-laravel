@@ -25,6 +25,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
 //        'id',
+        'user_id',
         'name',
         'email',
         'password',
@@ -82,7 +83,7 @@ class User extends Authenticatable implements JWTSubject
 //    {
 //        parent::boot();
 //        self::creating(function ($model) {
-//            $model->uuid = IdGenerator::generate( new User , 'id' ,  6,  'USER_#RD%_' );
+//            $model->uuid = IdGenerator::generate( new User() , 'user_id' ,  6,  'USER_#RD%_' );
 //        });
 //    }
 

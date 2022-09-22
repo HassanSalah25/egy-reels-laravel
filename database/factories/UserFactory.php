@@ -17,7 +17,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-//        'id' =>Str::random(6),
+        'user_id' =>Str::random(6),
 //        'uuid' =>  $this->faker->randomDigitNotNull,
         'google_id'=> Str::random(10),
             'image'=> $this->faker->url,

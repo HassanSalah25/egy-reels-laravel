@@ -31,6 +31,7 @@ Route::group(['middleware' => ['api'], 'namespace' => 'Api'], function () {
         Route::group(['prefix' => 'admin'],function () {
             Route::post('show', [\App\Http\Controllers\API\UserController::class, 'show']);
             Route::post('store', [\App\Http\Controllers\API\UserController::class, 'store']);
+            Route::post('save', [\App\Http\Controllers\API\UserController::class, 'save']);
             Route::post('update', [\App\Http\Controllers\API\UserController::class, 'update']);
             Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'destroy']);
 //                showComments

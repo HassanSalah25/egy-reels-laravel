@@ -8,8 +8,10 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Traits\GeneralTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-
+ use App\Helpers\Helper;
+ use Validator;
 #########
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 
@@ -52,6 +54,38 @@ class UserController extends Controller
     return $this -> returnData('user',$user);
     }
 
+    #####################################
+    function save(Request $request){
+        /** Validate name field */
+        $request->validate([
+            'name'=>'required',
+        ]);
+
+        $user = new User();
+        $user_id = Helper::IDGenerator(new User(), 'user_id', 20, 'USER'); /** Generate id */
+        $user->user_id = $user_id;
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->password = $request->get('password');
+        $user->phone = $request->get('phone');
+        $user->birthdate = $request->get('birthdate');
+        $user->image = $request->get('image');
+        $user->gender = $request->get('gender');
+        $user->notify = $request->get('notify');
+        $user->email = $request->get('email');
+        $user->save();
+
+        return $this -> returnData('user',$user);
+
+//        if($user){
+//            return back()->with('success','New user has been added');
+//        }else{
+//            return back()->with('faild','Something went wrong');
+//        }
+
+
+    }
+    #############################################
     /**
      * Display the specified resource.
      *
