@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Following>
@@ -18,6 +19,9 @@ class FollowingFactory extends Factory
     {
         return [
             //
+            'user_id' => Str::random(10) ,
+            'fuser_id' => Str::random(10) ,
+//            'Date' => $this->faker->dateTimeThisMonth() ,
         ];
     }
 }

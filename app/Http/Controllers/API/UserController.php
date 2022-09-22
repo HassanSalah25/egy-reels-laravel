@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\API;
+use App\Http\Resources\CommentResource;
+use App\Http\Resources\FollowResources;
+use App\Http\Resources\ReelResource;
 use App\Http\Resources\UserResource;
 use App\Models\Following;
 use App\Models\Like;
@@ -25,34 +28,34 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-
-//        $id = IdGenerator::generate(['table' => 'users', 'length' => 6, 'prefix' => date('y')]);
-
-        //
-//        User::create($request->validate([
-//            'name'=> 'required',
-//            'password'=> 'required',
-//            'mobile'=> 'required',
-//            'email' => 'required|unique:Students'
-//        ]));
+//    public function store(Request $request)
+//    {
 //
-
-    $user = new User();
-    $user->name = $request->get('name');
-    $user->email = $request->get('email');
-    $user->password = $request->get('password');
-    $user->phone = $request->get('phone');
-    $user->birthdate = $request->get('birthdate');
-    $user->image = $request->get('image');
-    $user->gender = $request->get('gender');
-    $user->notify = $request->get('notify');
-    $user->email = $request->get('email');
-    $user->save();
-
-    return $this -> returnData('user',$user);
-    }
+////        $id = IdGenerator::generate(['table' => 'users', 'length' => 6, 'prefix' => date('y')]);
+//
+//        //
+////        User::create($request->validate([
+////            'name'=> 'required',
+////            'password'=> 'required',
+////            'mobile'=> 'required',
+////            'email' => 'required|unique:Students'
+////        ]));
+////
+//
+//    $user = new User();
+//    $user->name = $request->get('name');
+//    $user->email = $request->get('email');
+//    $user->password = $request->get('password');
+//    $user->phone = $request->get('phone');
+//    $user->birthdate = $request->get('birthdate');
+//    $user->image = $request->get('image');
+//    $user->gender = $request->get('gender');
+//    $user->notify = $request->get('notify');
+//    $user->email = $request->get('email');
+//    $user->save();
+//
+//    return $this -> returnData('user',$user);
+//    }
 
     #####################################
     function save(Request $request){
@@ -154,7 +157,7 @@ class UserController extends Controller
     {
 
         $comments =  Comment::all();
-        $comment =  ReelResource::collection($comments) ;
+        $comment =  CommentResource::collection($comments) ;
         return $this -> returnData('Table OF COMMENTS allowd admins only!!',$comment);
     }
     public function updateComment(Request $request, $id)
@@ -183,7 +186,7 @@ class UserController extends Controller
     {
 
         $follows =   Following::all();
-        $follow =  UserResource::collection($follows) ;
+        $follow =  FollowResources::collection($follows) ;
         return $this -> returnData('Table OF follows allowd admins only!!',$follow);
     }
     public function like(Request $request)
