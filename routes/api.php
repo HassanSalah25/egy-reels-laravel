@@ -44,7 +44,25 @@ Route::group(['middleware' => ['api','auth.guard:admin-api'], 'namespace' => 'Ap
 
 
 
-
-
+    Route::group(['prefix' => 'comment'],function () {
+        Route::post('show', [\App\Http\Controllers\API\UserController::class, 'showComments']);
+        Route::post('store', [\App\Http\Controllers\API\UserController::class, 'createComment']);
+        Route::post('update', [\App\Http\Controllers\API\UserController::class, 'updateComment']);
+        Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'destroyComment']);
     });
+
+    Route::group(['prefix' => 'like'],function () {
+        Route::post('show', [\App\Http\Controllers\API\UserController::class, 'showLikes']);
+        Route::post('store', [\App\Http\Controllers\API\UserController::class, 'like']);
+        Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'unlike']);
+    });
+
+    Route::group(['prefix' => 'Following'],function () {
+        Route::post('show', [\App\Http\Controllers\API\UserController::class, 'showFollowings']);
+        Route::post('store', [\App\Http\Controllers\API\UserController::class, 'followUser']);
+        Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'removeFollowing']);
+    });
+    });
+
+Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 
