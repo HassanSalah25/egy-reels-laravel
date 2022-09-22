@@ -96,6 +96,7 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         // TODO: Implement getJWTCustomClaims() method.
+        return [];
     }
 
 

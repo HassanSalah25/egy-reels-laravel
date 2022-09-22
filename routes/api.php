@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\API\Auth\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,11 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 //all routes / api here must be api authenticated
-Route::group(['middleware' => ['api'], 'namespace' => 'Api'], function () {
+Route::post('login', [AuthController::class,'login']);
+Route::post('logout', [AuthController::class,'logout']);
 
-
-
-
+Route::group(['middleware' => ['api','auth.guard:admin-api'], 'namespace' => 'Api'], function () {
 
         Route::group(['prefix' => 'admin'],function () {
             Route::post('show', [\App\Http\Controllers\API\UserController::class, 'show']);
@@ -37,10 +36,10 @@ Route::group(['middleware' => ['api'], 'namespace' => 'Api'], function () {
 
         Route::group(['prefix' => 'reel'],function () {
 
-            Route::post('show', [\App\Http\Controllers\ReelController::class, 'show']);
-            Route::post('store', [\App\Http\Controllers\ReelController::class, 'store']);
-            Route::post('update', [\App\Http\Controllers\ReelController::class, 'update']);
-            Route::post('destroy', [\App\Http\Controllers\ReelController::class, 'destroy']);
+            Route::post('show', [\App\Http\Controllers\API\ReelController::class, 'show']);
+            Route::post('store', [\App\Http\Controllers\API\ReelController::class, 'store']);
+            Route::post('update', [\App\Http\Controllers\API\ReelController::class, 'update']);
+            Route::post('destroy', [\App\Http\Controllers\API\ReelController::class, 'destroy']);
         });
 
 
