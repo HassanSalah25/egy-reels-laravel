@@ -14,7 +14,6 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-//    public $incrementing = false;
 
 
 
@@ -24,8 +23,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-//        'id',
-        'user_id',
+        'uuid',
         'name',
         'email',
         'password',
@@ -72,20 +70,6 @@ class User extends Authenticatable implements JWTSubject
     public function roles() {
         return $this->belongsToMany(Role::class, 'role_users');
     }
-
-
-
-
-
-
-###########
-//    public static function boot()
-//    {
-//        parent::boot();
-//        self::creating(function ($model) {
-//            $model->uuid = IdGenerator::generate( new User() , 'user_id' ,  6,  'USER_#RD%_' );
-//        });
-//    }
 
 
     public function getJWTIdentifier()

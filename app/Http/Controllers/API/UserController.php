@@ -14,7 +14,8 @@ use App\Traits\GeneralTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
  use App\Helpers\Helper;
- use Validator;
+use Illuminate\Support\Str;
+use Validator;
 #########
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 
@@ -22,40 +23,6 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 class UserController extends Controller
 {
     use GeneralTrait;
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-//    public function store(Request $request)
-//    {
-//
-////        $id = IdGenerator::generate(['table' => 'users', 'length' => 6, 'prefix' => date('y')]);
-//
-//        //
-////        User::create($request->validate([
-////            'name'=> 'required',
-////            'password'=> 'required',
-////            'mobile'=> 'required',
-////            'email' => 'required|unique:Students'
-////        ]));
-////
-//
-//    $user = new User();
-//    $user->name = $request->get('name');
-//    $user->email = $request->get('email');
-//    $user->password = $request->get('password');
-//    $user->phone = $request->get('phone');
-//    $user->birthdate = $request->get('birthdate');
-//    $user->image = $request->get('image');
-//    $user->gender = $request->get('gender');
-//    $user->notify = $request->get('notify');
-//    $user->email = $request->get('email');
-//    $user->save();
-//
-//    return $this -> returnData('user',$user);
-//    }
 
     #####################################
     function save(Request $request){
@@ -65,7 +32,8 @@ class UserController extends Controller
         ]);
 
         $user = new User();
-        $user_id = Helper::IDGenerator(new User(), 'user_id', 20, 'USER'); /** Generate id */
+         $user_id =  Str::uuid()->toString();
+
         $user->user_id = $user_id;
         $user->name = $request->get('name');
         $user->email = $request->get('email');
