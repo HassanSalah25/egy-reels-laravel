@@ -1,5 +1,6 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
+
 use Illuminate\Http\Request;
 use Auth;
 use Exception;
@@ -11,21 +12,21 @@ class TwitterController extends Controller
     {
         return Socialite::driver('twitter')->redirect();
     }
-       
+
     public function cbTwitter()
     {
         try {
-     
+
             $user = Socialite::driver('twitter')->user();
-      
+
             $userWhere = User::where('twitter_id', $user->id)->first();
-      
+
             if($userWhere){
-      
+
                 Auth::login($userWhere);
-     
+
                 return redirect('/home');
-      
+
             }else{
                 $gitUser = User::create([
                     'name' => $user->name,
@@ -34,12 +35,12 @@ class TwitterController extends Controller
                     'oauth_type'=> 'twitter',
                     'password' => encrypt('admin595959')
                 ]);
-     
+
                 Auth::login($gitUser);
-      
+
                 return redirect('/home');
             }
-     
+
         } catch (Exception $e) {
             dd($e->getMessage());
         }
