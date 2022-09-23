@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Mews\Purifier\Casts\CleanHtml;
 
 class Role extends Model
 {
@@ -12,9 +11,4 @@ class Role extends Model
     protected $fillable =[
         'type',
           ];
-
-    protected $casts = [
-        'type'=> CleanHtml::class,
-
-    ];
 }

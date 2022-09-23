@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\API;
-use App\Http\Resources\CommentResource;
-use App\Http\Resources\FollowResources;
-use App\Http\Resources\ReelResource;
+
+use App\Models\VerifyUser;
+use App\Mail\VerifyMail;
 use App\Http\Resources\UserResource;
 use App\Models\Following;
 use App\Models\Like;
@@ -11,82 +11,72 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Traits\GeneralTrait;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
- use App\Helpers\Helper;
-use Illuminate\Support\Str;
-use Validator;
+
+#########
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 
 class UserController extends Controller
 {
     use GeneralTrait;
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+//    public function store(Request $request)
+//    {
+//
+////        $id = IdGenerator::generate(['table' => 'users', 'length' => 6, 'prefix' => date('y')]);
+//
+//        //
+////        User::create($request->validate([
+////            'name'=> 'required',
+////            'password'=> 'required',
+////            'mobile'=> 'required',
+////            'email' => 'required|unique:Students'
+////        ]));
+////
+//
+//    $user = new User();
+//    $user->name = $request->get('name');
+//    $user->email = $request->get('email');
+//    $user->password = $request->get('password');
+//    $user->phone = $request->get('phone');
+//    $user->birthdate = $request->get('birthdate');
+//    $user->image = $request->get('image');
+//    $user->gender = $request->get('gender');
+//    $user->notify = $request->get('notify');
+//    $user->email = $request->get('email');
+//    $user->save();
+//
+//    return $this -> returnData('user',$user);
+//    }
 
+    protected function store(Request $request)
+    {
+        $user = new User();
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->password = $request->get('password');
+        $user->phone = $request->get('phone');
+        $user->birthdate = $request->get('birthdate');
+        $user->image = $request->get('image');
+        $user->gender = $request->get('gender');
+        $user->notify = $request->get('notify');
+        $user->email = $request->get('email');
+        $user->save();
 
-    #####################################
-    function store(Request $request){
-        /** Validate Model fields = prevent SQL inject from being executed in DB */
-
-        $validator = Validator::make($request->all(), [
-//            'id' => 'required|numeric',
-            'name'=>'required',
-                #########
+        $verifyUser = VerifyUser::create([
+            'user_id' => $user->id,
+            'token' => sha1(time())
         ]);
-//        # prevent HTML and JS tags from being executed
-//        $cleaned_name = strip_tags($request->input('name'));
-//
-//        #SQL inject Prevention:is to rewrite the initial query using a parameterized query.
-//        DB::table('users')
-//            ->select('name', 'email')
-//            ->whereRaw('uuid = ?', $uuid)->first();
-//
+        \Mail::to($user->email)->send(new VerifyMail($user));
 
-
-        if ($validator->fails()) {
-            abort(404);
-        }else {
-            //Run query
-            # prevent HTML and JS tags from being executed
-            $cleaned_name = strip_tags($request->get('name'));
-                ###################
-
-
-            $user = new User();
-            $user_id =  Str::uuid()->toString();
-            $user->uuid = $user_id;
-            $user->name = $request->get('name');
-            $user->email = $request->get('email');
-            $user->password = $request->get('password');
-            $user->phone = $request->get('phone');
-            $user->birthdate = $request->get('birthdate');
-            $user->image = $request->get('image');
-            $user->gender = $request->get('gender');
-            $user->notify = $request->get('notify');
-            $user->email = $request->get('email');
-            $user->save();
-//        $verifyUser = VerifyUser::create([
-//            'user_id' => $user->id,
-//            'token' => sha1(time())
-//        ]);
-
-//        \Mail::to($user->email)->send(new VerifyMail($user));
-
-            return $user;
-//        return $this -> returnData('user',$user);
-
-//        if($user){
-//            return back()->with('success','New user has been added');
-//        }else{
-//            return back()->with('faild','Something went wrong');
-//        }
-
-        }
-
-
-
-
+        return $user;
     }
-    #############################################
     /**
      * Display the specified resource.
      *
@@ -114,10 +104,10 @@ class UserController extends Controller
      * @param  \App\Models\Reel  $reel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
-        $User = User::find($id);
+        $User = User::find($request->id);
         $User->name = $request->name;
         $User->password = $request->password;
         $User->mobile = $request->mobile;
@@ -146,22 +136,22 @@ class UserController extends Controller
             'content'=> 'required'
             ]));
     }
-    public function destroyComment($id)
+    public function destroyComment(Request $request)
     {
         //
-        Comment::where('id', $id)->delete();
+        Comment::where('id', $request->id)->delete();
     }
     public function showComments()
     {
 
         $comments =  Comment::all();
-        $comment =  CommentResource::collection($comments) ;
+        $comment =  ReelResource::collection($comments) ;
         return $this -> returnData('Table OF COMMENTS allowd admins only!!',$comment);
     }
-    public function updateComment(Request $request, $id)
+    public function updateComment(Request $request)
     {
         //
-        $comment = Comment::find($id);
+        $comment = Comment::find($request->id);
         $comment->reel_id = $request->reel_id;
         $comment->content = $request->contents;
         $comment->save();
@@ -175,16 +165,16 @@ class UserController extends Controller
                 'duser_id'=> 'required',
             ]));
     }
-    public function removeFollowing($id)
+    public function removeFollowing(Request $request)
     {
         //
-        Comment::where('fuser_id', $id)->delete();
+        Comment::where('fuser_id', $request->id)->delete();
     }
     public function showFollowings()
     {
 
         $follows =   Following::all();
-        $follow =  FollowResources::collection($follows) ;
+        $follow =  UserResource::collection($follows) ;
         return $this -> returnData('Table OF follows allowd admins only!!',$follow);
     }
     public function like(Request $request)
@@ -195,12 +185,12 @@ class UserController extends Controller
             'active'=>'required',
         ]));
     }
-    public function unlike($id)
+    public function unlike(Request $request)
     {
-        Like::where('id', $id)->delete();
+        Like::where('id', $request->id)->delete();
     }
-    public function showLikes($reel_id)
+    public function showLikes(Request $request)
     {
-        Like::find($reel_id);
+        Like::find($request->id);
     }
 }

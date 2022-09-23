@@ -17,11 +17,9 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.0",
         "livewire/livewire": "^2.5",
-        "mews/captcha": "^3.2",
-        "mews/purifier": "^3.3",
-        "mpdf/mpdf": "^6.1",
         "php-open-source-saver/jwt-auth": "^2.0",
-        "tymon/jwt-auth": "*"
+        "tymon/jwt-auth": "*",
+        "mpdf/mpdf": "^6.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
