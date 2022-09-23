@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('reels', function (Blueprint $table) {
             $table->id();
-           $table->string('name');
-           $table->text('caption');
+           $table->string('name')->nullable();
+           $table->text('caption')->nullable();
             $table->string('video_url');
-            $table->bigInteger('likes_count');
-            $table->bigInteger('comments_count');
+            $table->bigInteger('likes_count')->nullable();
+            $table->bigInteger('comments_count')->nullable();
 
             $table->timestamps();
         });

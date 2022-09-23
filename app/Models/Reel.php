@@ -11,11 +11,11 @@ class Reel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'caption',
-        'video_url',
-        'likes_count',
-        'comments_count',
+//        'name',
+//        'caption',
+        'video_url' ,
+//        'likes_count',
+//        'comments_count',
     ];
 
 //    protected $casts = [
