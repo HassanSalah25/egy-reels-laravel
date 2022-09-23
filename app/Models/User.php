@@ -55,21 +55,23 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'uuid'=> CleanHtml::class,
-        'name'=> CleanHtml::class,
-        'email'=> CleanHtml::class,
-        'password'=> CleanHtml::class,
-        'google_id'=> CleanHtml::class,
-        'image'=> CleanHtml::class,
-        'gender'=> CleanHtml::class,
-        'notify'=> CleanHtml::class,
-        'phone'=> CleanHtml::class,
-        'birthdate'=> CleanHtml::class,
-        'email_verified_at'=> CleanHtml::class,
-        'email_verified_at' => 'datetime',
-        'remember_token'=> CleanHtml::class,
-    ];
+//    protected $casts = [
+//        'uuid'=> CleanHtml::class,
+//        'name'=> CleanHtml::class,
+//        'email'=> CleanHtml::class,
+//        'password'=> CleanHtml::class,
+//        'google_id'=> CleanHtml::class,
+//        'image'=> CleanHtml::class,
+//        'gender'=> CleanHtml::class,
+//        'notify'=> CleanHtml::class,
+//        'phone'=> CleanHtml::class,
+//        'birthdate'=> CleanHtml::class,
+//        'email_verified_at'=> CleanHtml::class,
+//        'email_verified_at' => 'datetime',
+//        'remember_token'=> CleanHtml::class,
+//    ];
+
+
     public function likes()
     {
         return $this->hasMany(Like::class);

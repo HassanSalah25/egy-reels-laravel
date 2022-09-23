@@ -20,7 +20,8 @@ class LikeFactory extends Factory
             //
             'reel_id' => $this->faker->randomDigitNotNull(),
             'user_id' => $this->faker->randomDigitNotNull(),
-            'active' => $this->faker->boolean,
-        ];
+//            'active' => $this->faker->boolea \
+
+       ];
     }
 }

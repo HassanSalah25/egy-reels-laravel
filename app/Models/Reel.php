@@ -11,20 +11,24 @@ class Reel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'caption',
-        'video_url',
-        'likes_count',
-        'comments_count',
+//        'name',
+//        'caption',
+        'video_url' ,
+//        'likes_count',
+//        'comments_count',
     ];
-    protected $casts = [
-        'name'=> CleanHtml::class,
-        'caption'=> CleanHtml::class,
-        'video_url'=> CleanHtml::class,
-        'likes_count'=> CleanHtml::class,
-        'comments_count'=> CleanHtml::class,
 
-    ];
+//    protected $casts = [
+//        'name'=> CleanHtml::class,
+//        'caption'=> CleanHtml::class,
+//        'video_url'=> CleanHtml::class,
+//        'likes_count'=> CleanHtml::class,
+//        'comments_count'=> CleanHtml::class,
+//
+//    ];
+
+
+
 /**
  * Get all of the comments for the Reel
  *

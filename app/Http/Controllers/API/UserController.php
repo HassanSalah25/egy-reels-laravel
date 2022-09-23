@@ -156,7 +156,7 @@ class UserController extends Controller
 
         $comments =  Comment::all();
         $comment =  CommentResource::collection($comments) ;
-        return $this -> returnData('Table OF COMMENTS allowd admins only!!',$comment);
+        return $this -> returnData('Table OF COMMENTS allowd admins only!!',$comments);
     }
     public function updateComment(Request $request, $id)
     {
