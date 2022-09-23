@@ -17,11 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string('uuid');
             $table->string('name');
-            $table->string('image');
-            $table->boolean('gender');
-            $table->string('notify');
-            $table->string('phone');
-            $table->string('birthdate');
+            $table->string('image')->nullable();
+            $table->boolean('gender')->nullable();
+            $table->string('notify')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('birthdate')->nullable();
+            $table->text('token')->nullable();
+            $table->text('facebook_page_id')->nullable();
              $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('verified')->default(false);

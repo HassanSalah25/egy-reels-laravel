@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\GoogleController;
-use App\Http\Controllers\API\FacebookController;
+use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\FacebookController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\API\TwitterController;
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +26,9 @@ Route::prefix('google')->name('google.')->group( function(){
     Route::any('callback', [GoogleController::class, 'callbackFromGoogle'])->name('callback');
 });
 //facebook
-Route::prefix('facebook')->name('facebook.')->group( function(){
-    Route::get('login', [FacebookController::class, 'loginUsingFacebook'])->name('login');
-    Route::get('callback', [FacebookController::class, 'callbackFromFacebook'])->name('callback');
+Route::prefix('facebook')->name('facebook')->group( function(){
+    Route::get('login', [ProfileController::class, 'redirectToFacebookProvider'])->name('login');
+    Route::get('callback', [ProfileController::class, 'handleProviderFacebookCallback'])->name('callback');
 });
 Route::middleware([
     'auth:sanctum',
