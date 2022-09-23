@@ -6,7 +6,7 @@ use App\Models\VerifyUser;
 use App\Mail\VerifyMail;
 use App\Http\Resources\UserResource;
 use App\Models\Following;
-use App\Models\Like;    
+use App\Models\Like;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;

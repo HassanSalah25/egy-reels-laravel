@@ -22,6 +22,10 @@
     </head>
     <body class="antialiased">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+            <fb:login-button
+                scope="public_profile,email"
+                onlogin="checkLoginState();">
+            </fb:login-button>
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
@@ -35,16 +39,15 @@
                     @endauth
                 </div>
             @endif
+
+
             <a href="{{ route('google.login') }}" class="btn btn-google btn-user btn-block">
                 <i class="fab fa-google fa-fw"></i> Login with Google
             </a>
             <a href="{{ route('google.logout') }}" class="btn btn-google btn-user btn-block">
                 <i class="fab fa-google fa-fw"></i> Logout with Google
             </a>
-            <a href="{{ route('facebook.login') }}" class="btn btn-facebook btn-user btn-block">
-                <i class="fab fa-facebook-f fa-fw"></i>
-                Login with Facebook
-             </a>
+
              <div class="flex items-center justify-end mt-4">
                 <a class="btn" href="{{ url('auth/twitter') }}"
                     style="background: #1E9DEA; padding: 10px; width: 100%; text-align: center; display: block; border-radius:4px; color: #ffffff;">
@@ -146,5 +149,37 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : '{your-app-id}',
+                    cookie     : true,
+                    xfbml      : true,
+                    version    : '{api-version}'
+                });
+
+                FB.AppEvents.logPageView();
+
+            };
+
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+
+            function checkLoginState() {
+                FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+            }
+        </script>
     </body>
 </html>
