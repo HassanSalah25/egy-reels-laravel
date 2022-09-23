@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Comment;
 use App\Models\CommentUser;
+use App\Models\Following;
 use App\Models\Like;
 use App\Models\Reel;
 use App\Models\ReelUser;
@@ -22,14 +23,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Comment::factory()->times(10)->create();
-        CommentUser::factory()->times(10)->create();
-        Like::factory()->times(10)->create();
-        Reel::factory()->times(10)->create();
-        ReelUser::factory()->times(10)->create();
-//        Role::factory()->times(10)->create();
-        RoleUser::factory()->times(10)->create();
-        User::factory()->times(10)->create();
+        //Comment::factory()->times(10)->create();
+        //CommentUser::factory()->times(10)->create();
+        //Like::factory()->times(10)->create();
+        //Reel::factory()->times(10)->create();
+//        ReelUser::factory()->times(10)->create();
+////        Role::factory()->times(10)->create();
+//        RoleUser::factory()->times(10)->create();
+//        User::factory()->times(10)->create();
+//        Following::factory()->times(10)->create();
 
         $this->call(RoleSeeder::class);
 

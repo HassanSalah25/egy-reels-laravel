@@ -1,33 +1,37 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
-
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Traits\GeneralTrait;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 
-class GoogleController extends Controller
+class ProfileController extends Controller
 {
     //
-    public function loginWithGoogle()
-    {
-        return Socialite::driver('google')->redirect();
+    use GeneralTrait;
+    public function redirectToFacebookProvider(){
+        return Socialite::driver('facebook')->redirect();
     }
-
-    public function callbackFromGoogle()
-    {
+    public function handleProviderFacebookCallback(){
+//        $auth_user = Socialite::driver('facebook')->user();
+//        $user = User::find(6);
+//        $user->token = $auth_user->getEmail();
+//        $user->facebook_id = $auth_user->getName();
+//        $user->save();
+//        return returnData('user',$user);
         try {
-            $user = Socialite::driver('google')->stateless()->user();
+            $user = Socialite::driver('facebook')->stateless()->user();
 
             // Check Users Email If Already There
             $is_user = User::where('email', $user->getEmail())->first();
             if(!$is_user){
 
                 $saveUser = User::updateOrCreate([
-                    'google_id' => $user->getId(),
+                    'facebook_id' => $user->getId(),
                 ],[
                     'name' => $user->getName(),
                     'email' => $user->getEmail(),
@@ -35,7 +39,7 @@ class GoogleController extends Controller
                 ]);
             }else{
                 $saveUser = User::where('email',  $user->getEmail())->update([
-                    'google_id' => $user->getId(),
+                    'facebook_id' => $user->getId(),
                 ]);
                 $saveUser = User::where('email', $user->getEmail())->first();
             }
@@ -47,10 +51,5 @@ class GoogleController extends Controller
         } catch (\Throwable $th) {
             throw $th;
         }
-    }
-    public function logoutFromGoogle()
-    {
-        Auth::logout();
-        return view('welcome');
     }
 }

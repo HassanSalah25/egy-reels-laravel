@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ReelResource extends JsonResource
+class FollowResources extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,15 +15,13 @@ class ReelResource extends JsonResource
     public function toArray($request)
     {
 //        return parent::toArray($request);
-
-        return [
+    return [
             'ID' => $this->id,
-            'NAME' => $this->name,
-            'User' => $this->caption,
-            'VIDEO' => $this->video_url,
-            'LIKES' => $this->likes_count,
-            'COMMENTS' => $this->comments_count,
-             'Date' => $this->created_at,
-        ];
+            'user_id' => $this->user_id,
+            'fuser_id' => $this->fuser_id,
+            'Date' => $this->created_at,
+
+    ];
+
     }
 }

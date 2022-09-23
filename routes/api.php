@@ -23,10 +23,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //all routes / api here must be api authenticated
 Route::post('login', [AuthController::class,'login']);
 Route::post('logout', [AuthController::class,'logout']);
-Auth::routes(['verify' => true]);
 
 
-Route::group(['middleware' => ['api','auth.guard:admin-api'], 'namespace' => 'Api'], function () {
+Route::group(['middleware' => ['api','auth.guard:admin-api'], 'namespace' => 'Api' ], function () {
 
         Route::group(['prefix' => 'admin'],function () {
             Route::post('show', [\App\Http\Controllers\API\UserController::class, 'show']);
