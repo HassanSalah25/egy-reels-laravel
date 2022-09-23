@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
             $table->string('reel_id');
-            $table->boolean('active');
+            $table->boolean('active')->nullable();
             $table->string('user_id');
             $table->timestamps();
         });

@@ -35,6 +35,7 @@ class ReelController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
         //
+
 //        # prevent HTML and JS tags from being executed
 //        $cleaned_name = strip_tags($request->input('name'));
 //
