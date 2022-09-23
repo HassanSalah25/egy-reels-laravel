@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Auth\AuthController;
+use App\Http\Controllers\FacebookController;
+use App\Http\Controllers\GoogleController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -64,6 +66,20 @@ Route::group(['middleware' => ['api','auth.guard:admin-api'], 'namespace' => 'Ap
         Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'removeFollowing']);
     });
     });
+<<<<<<< Updated upstream
 
+=======
+Route::prefix('google')->name('google.')->group( function(){
+    Route::get('login', [GoogleController::class, 'loginWithGoogle'])->name('login');
+    Route::get('logout', [GoogleController::class, 'logoutFromGoogle'])->name('logout');
+    Route::any('callback', [GoogleController::class, 'callbackFromGoogle'])->name('callback');
+});
+//facebook
+Route::prefix('facebook')->name('facebook.')->group( function(){
+    Route::get('login', [FacebookController::class, 'loginUsingFacebook'])->name('login');
+    Route::get('logout', [FacebookController::class, 'logoutFromFacebook'])->name('logout');
+    Route::get('callback', [FacebookController::class, 'callbackFromFacebook'])->name('callback');
+});
+>>>>>>> Stashed changes
 Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 
