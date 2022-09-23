@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Mews\Purifier\Casts\CleanHtml;
 
 class Reel extends Model
 {
@@ -16,7 +17,14 @@ class Reel extends Model
         'likes_count',
         'comments_count',
     ];
+    protected $casts = [
+        'name'=> CleanHtml::class,
+        'caption'=> CleanHtml::class,
+        'video_url'=> CleanHtml::class,
+        'likes_count'=> CleanHtml::class,
+        'comments_count'=> CleanHtml::class,
 
+    ];
 /**
  * Get all of the comments for the Reel
  *

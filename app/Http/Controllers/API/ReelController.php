@@ -6,8 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ReelResource;
 use App\Models\Reel;
 use App\Traits\GeneralTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
+use function GuzzleHttp\Promise\all;
 
 class ReelController extends Controller
 {
@@ -21,13 +25,52 @@ class ReelController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        Reel::create($request->validate([
+        $rules = [
             'name'=> 'required',
-            'password'=> 'required',
-            'mobile'=> 'required',
-            'email' => 'required|unique:Students'
-        ]));
+            'caption'=> 'required',
+            'video_url'=> 'required',
+            'likes_count'=> 'required',
+            'comments_count' => 'required|'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        //
+//        # prevent HTML and JS tags from being executed
+//        $cleaned_name = strip_tags($request->input('name'));
+//
+//        #SQL inject Prevention:is to rewrite the initial query using a parameterized query.
+//        DB::table('users')
+//            ->select('name', 'email')
+//            ->whereRaw('uuid = ?', $uuid)->first();
+//
+
+
+        if ($validator->fails()) {
+            abort(404);
+        }else {
+            //Run query
+            # prevent HTML and JS tags from being executed
+            $cleaned_name = strip_tags($request->get('name'));
+            ###################
+
+            $reel = new Reel();
+            $reel->name = $request->get('name');
+            $reel->caption = $request->get('email');
+            $reel->video_url = $request->get('password');
+            $reel->likes_count = $request->get('phone');
+            $reel->comments_count = $request->get('birthdate');
+
+            $reel->save();
+
+
+
+            return $reel;
+
+
+        }
+
+
+
     }
 
     /**
@@ -38,11 +81,11 @@ class ReelController extends Controller
      */
     public function show()
     {
+            $reels = Reel::all();
+            $reel =  ReelResource::collection($reels) ;
 
-        $reels = Reel::all();
-        $reel =  ReelResource::collection($reels) ;
-//        return 'HOLAA!!!';
         return $this -> returnData('Table OF Reels allowd admins only!!',$reel);
+
 
 
     }
@@ -77,6 +120,15 @@ class ReelController extends Controller
     {
         //
         Reel::where('id', $id)->delete();
-        return redirect('students');
+        #SQL inject Prevention:is to rewrite the initial query using a parameterized query.
+//        DB::table('reels')
+//            ->s('id','name',
+//                'caption',
+//                'video_url',
+//                'likes_count',
+//                'comments_count')
+//            ->whereRaw('id = ?', $id)->first();
+
+        return redirect()->back();
     }
 }

@@ -16,7 +16,9 @@ return [
     */
 
     'default' => env('CACHE_DRIVER', 'file'),
-
+//    'default' => 'memcached',
+//
+//    'limiter' => 'redis',
     /*
     |--------------------------------------------------------------------------
     | Cache Stores
@@ -56,6 +58,8 @@ return [
 
         'memcached' => [
             'driver' => 'memcached',
+            'limiter' => 'redis',
+
             'persistent_id' => env('MEMCACHED_PERSISTENT_ID'),
             'sasl' => [
                 env('MEMCACHED_USERNAME'),

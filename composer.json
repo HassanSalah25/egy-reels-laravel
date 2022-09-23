@@ -14,6 +14,8 @@
         "laravel/socialite": "^5.5",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.5",
+        "mews/captcha": "^3.2",
+        "mews/purifier": "^3.3",
         "php-open-source-saver/jwt-auth": "^2.0",
         "tymon/jwt-auth": "*"
     },

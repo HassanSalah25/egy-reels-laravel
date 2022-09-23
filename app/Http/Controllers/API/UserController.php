@@ -16,43 +16,73 @@ use Illuminate\Http\Request;
  use App\Helpers\Helper;
 use Illuminate\Support\Str;
 use Validator;
-#########
-use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 
 class UserController extends Controller
 {
     use GeneralTrait;
 
+
     #####################################
-    function save(Request $request){
-        /** Validate name field */
-        $request->validate([
+    function store(Request $request){
+        /** Validate Model fields = prevent SQL inject from being executed in DB */
+
+        $validator = Validator::make($request->all(), [
+//            'id' => 'required|numeric',
             'name'=>'required',
+                #########
         ]);
+//        # prevent HTML and JS tags from being executed
+//        $cleaned_name = strip_tags($request->input('name'));
+//
+//        #SQL inject Prevention:is to rewrite the initial query using a parameterized query.
+//        DB::table('users')
+//            ->select('name', 'email')
+//            ->whereRaw('uuid = ?', $uuid)->first();
+//
 
-        $user = new User();
-         $user_id =  Str::uuid()->toString();
 
-        $user->user_id = $user_id;
-        $user->name = $request->get('name');
-        $user->email = $request->get('email');
-        $user->password = $request->get('password');
-        $user->phone = $request->get('phone');
-        $user->birthdate = $request->get('birthdate');
-        $user->image = $request->get('image');
-        $user->gender = $request->get('gender');
-        $user->notify = $request->get('notify');
-        $user->email = $request->get('email');
-        $user->save();
+        if ($validator->fails()) {
+            abort(404);
+        }else {
+            //Run query
+            # prevent HTML and JS tags from being executed
+            $cleaned_name = strip_tags($request->get('name'));
+                ###################
 
-        return $this -> returnData('user',$user);
+
+            $user = new User();
+            $user_id =  Str::uuid()->toString();
+            $user->uuid = $user_id;
+            $user->name = $request->get('name');
+            $user->email = $request->get('email');
+            $user->password = $request->get('password');
+            $user->phone = $request->get('phone');
+            $user->birthdate = $request->get('birthdate');
+            $user->image = $request->get('image');
+            $user->gender = $request->get('gender');
+            $user->notify = $request->get('notify');
+            $user->email = $request->get('email');
+            $user->save();
+//        $verifyUser = VerifyUser::create([
+//            'user_id' => $user->id,
+//            'token' => sha1(time())
+//        ]);
+
+//        \Mail::to($user->email)->send(new VerifyMail($user));
+
+            return $user;
+//        return $this -> returnData('user',$user);
 
 //        if($user){
 //            return back()->with('success','New user has been added');
 //        }else{
 //            return back()->with('faild','Something went wrong');
 //        }
+
+        }
+
+
 
 
     }
