@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GoogleController;
-use App\Http\Controllers\FacebookController;
-use App\Http\Controllers\TwitterController;
+use App\Http\Controllers\API\GoogleController;
+use App\Http\Controllers\API\FacebookController;
+use App\Http\Controllers\API\TwitterController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,3 +40,4 @@ Route::middleware([
 });
 Route::get('auth/twitter', [TwitterController::class, 'loginwithTwitter']);
 Route::get('auth/callback/twitter', [TwitterController::class, 'cbTwitter']);
+Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');

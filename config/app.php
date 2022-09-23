@@ -182,6 +182,10 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+#########
+        Mews\Captcha\CaptchaServiceProvider::class,
+##
+        Mews\Purifier\PurifierServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -197,7 +201,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
-
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
     ],
 
     /*
@@ -213,6 +217,11 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth',
+        ####
+            'Captcha' => Mews\Captcha\Facades\Captcha::class,
+##
+        'Purifier' => Mews\Purifier\Facades\Purifier::class,
 
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
