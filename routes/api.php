@@ -27,7 +27,7 @@ Route::post('login', [AuthController::class,'login']);
 Route::post('logout', [AuthController::class,'logout']);
 
 
-Route::group(['middleware' => ['api','auth.guard:admin-api'], 'namespace' => 'Api' ], function () {
+Route::group(['middleware' => ['api','auth.guard:api-jwt'], 'namespace' => 'Api' ], function () {
 
         Route::group(['prefix' => 'admin'],function () {
             Route::post('show', [\App\Http\Controllers\API\UserController::class, 'show']);
@@ -66,20 +66,3 @@ Route::group(['middleware' => ['api','auth.guard:admin-api'], 'namespace' => 'Ap
         Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'removeFollowing']);
     });
     });
-<<<<<<< Updated upstream
-
-=======
-Route::prefix('google')->name('google.')->group( function(){
-    Route::get('login', [GoogleController::class, 'loginWithGoogle'])->name('login');
-    Route::get('logout', [GoogleController::class, 'logoutFromGoogle'])->name('logout');
-    Route::any('callback', [GoogleController::class, 'callbackFromGoogle'])->name('callback');
-});
-//facebook
-Route::prefix('facebook')->name('facebook.')->group( function(){
-    Route::get('login', [FacebookController::class, 'loginUsingFacebook'])->name('login');
-    Route::get('logout', [FacebookController::class, 'logoutFromFacebook'])->name('logout');
-    Route::get('callback', [FacebookController::class, 'callbackFromFacebook'])->name('callback');
-});
->>>>>>> Stashed changes
-Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
-
