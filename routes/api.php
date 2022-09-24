@@ -22,15 +22,15 @@ Route::post('logout', [AuthController::class,'logout'])->middleware(['api','auth
 
 //google
 Route::prefix('google')->name('google.')->group( function(){
-    Route::post('login', [GoogleController::class, 'loginWithGoogle'])->name('login');
-    Route::post('logout', [GoogleController::class, 'logoutFromGoogle'])->name('logout')->middleware(['api','auth.guard:api-jwt']);
+    Route::get('login', [GoogleController::class, 'loginWithGoogle'])->name('login');
+    Route::get('logout', [GoogleController::class, 'logoutFromGoogle'])->name('logout')->middleware(['api','auth.guard:api-jwt']);
     Route::any('callback', [GoogleController::class, 'callbackFromGoogle'])->name('callback');
 });
 //facebook
 Route::prefix('facebook')->name('facebook')->group( function(){
-    Route::post('login', [FacebookController::class, 'loginUsingFacebook'])->name('login');
-    Route::post('logout', [FacebookController::class, 'logoutFromFacebook'])->name('logout')->middleware(['api','auth.guard:api-jwt']);
-    Route::post('callback', [FacebookController::class, 'callbackFromFacebook'])->name('callback');
+    Route::get('login', [FacebookController::class, 'loginUsingFacebook'])->name('login');
+    Route::get('logout', [FacebookController::class, 'logoutFromFacebook'])->name('logout')->middleware(['api','auth.guard:api-jwt']);
+    Route::any('callback', [FacebookController::class, 'callbackFromFacebook'])->name('callback');
 });
 
 Route::group(['middleware' => ['api','auth.guard:api-jwt'], 'namespace' => 'Api' ], function () {
