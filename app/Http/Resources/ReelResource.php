@@ -24,7 +24,6 @@ class ReelResource extends JsonResource
             'LIKES' => $this->likes_count,
             'COMMENTS' => $this->comments_count,
              'Date' => $this->created_at,
-
         ];
     }
 }

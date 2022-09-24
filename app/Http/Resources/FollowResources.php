@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CommentResource extends JsonResource
+class FollowResources extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,18 +15,13 @@ class CommentResource extends JsonResource
     public function toArray($request)
     {
 //        return parent::toArray($request);
-
     return [
-        'ID' => $this->id,
-        'Reel' => $this->reel_id,
-        'Content' => $this->content,
-        'Date' => $this->created_at,
+            'ID' => $this->id,
+            'user_id' => $this->user_id,
+            'fuser_id' => $this->fuser_id,
+            'Date' => $this->created_at,
 
     ];
 
-
-
     }
-
-
 }
