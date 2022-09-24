@@ -98,6 +98,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function getJWTCustomClaims()
     {
         // TODO: Implement getJWTCustomClaims() method.
+        return [];
     }
 
 
