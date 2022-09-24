@@ -3,18 +3,21 @@
 namespace App\Http\Controllers\API;
 
 
+use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class GoogleController extends Controller
 {
+    use GeneralTrait;
     //
     public function loginWithGoogle()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')->stateless()->redirect();
     }
 
     public function callbackFromGoogle()
@@ -41,16 +44,35 @@ class GoogleController extends Controller
             }
 
 
-            Auth::loginUsingId($saveUser->id);
+            $credentials = ['email' => $user->getEmail(), 'password' => $user->getName().'@'.$user->getId()];
 
-            return view('welcome');
+            $token = Auth::guard('api-jwt')->attempt($credentials);
+
+            if (!$token)
+                return $this->returnError('E001', 'it is not valid!');
+
+            $admin = Auth::guard('api-jwt')->user();
+            $admin->api_token = $token;
+
+            return $this->returnData("user",$admin);
+
         } catch (\Throwable $th) {
             throw $th;
         }
     }
-    public function logoutFromGoogle()
+    public function logoutFromGoogle(Request $request)
     {
-        Auth::logout();
-        return view('welcome');
+        $token = $request -> header('auth-token');
+        if($token){
+            try {
+
+                JWTAuth::setToken($token)->invalidate(); //logout
+            }catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e){
+                return  $this -> returnError('','some thing went wrongs');
+            }
+            return $this->returnSuccessMessage('Logged out successfully');
+        }else{
+            $this -> returnError('','some thing went wrongs');
+        }
     }
 }

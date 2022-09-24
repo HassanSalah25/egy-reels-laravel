@@ -2,8 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\ReelController;
-use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\Auth\AuthController;
+use App\Http\Controllers\FacebookController;
+use App\Http\Controllers\GoogleController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,47 +16,58 @@ use App\Http\Controllers\API\UserController;
 |
 */
 
-Route::middleware(['auth:sanctum','XssSanitizer' ])->get('/user', function (Request $request) {
-    return $request->user();
+//all routes / api here must be api authenticated
+Route::post('login', [AuthController::class,'login']);
+Route::post('logout', [AuthController::class,'logout'])->middleware(['api','auth.guard:api-jwt']);
+
+//google
+Route::prefix('google')->name('google.')->group( function(){
+    Route::post('login', [GoogleController::class, 'loginWithGoogle'])->name('login');
+    Route::post('logout', [GoogleController::class, 'logoutFromGoogle'])->name('logout')->middleware(['api','auth.guard:api-jwt']);
+    Route::any('callback', [GoogleController::class, 'callbackFromGoogle'])->name('callback');
+});
+//facebook
+Route::prefix('facebook')->name('facebook')->group( function(){
+    Route::post('login', [FacebookController::class, 'loginUsingFacebook'])->name('login');
+    Route::post('logout', [FacebookController::class, 'logoutFromFacebook'])->name('logout')->middleware(['api','auth.guard:api-jwt']);
+    Route::post('callback', [FacebookController::class, 'callbackFromFacebook'])->name('callback');
 });
 
-
-
-//all routes / api here must be api authenticated
-Route::group(['middleware' => ['api','XssSanitizer'], 'namespace' => 'Api'], function () {
-
-
-
-
-
+Route::group(['middleware' => ['api','auth.guard:api-jwt'], 'namespace' => 'Api' ], function () {
         Route::group(['prefix' => 'admin'],function () {
             Route::post('show', [\App\Http\Controllers\API\UserController::class, 'show']);
-            Route::post('/comments/show', [\App\Http\Controllers\API\UserController::class, 'showComments']);
-            Route::post('/follows/show', [\App\Http\Controllers\API\UserController::class, 'showFollowings']);
-//            Route::post('store', [\App\Http\Controllers\API\UserController::class, 'store']);
             Route::post('store', [\App\Http\Controllers\API\UserController::class, 'store']);
             Route::post('update', [\App\Http\Controllers\API\UserController::class, 'update']);
             Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'destroy']);
-//                showComments
-//                showFollowings
-//
-//                showLikes
-
         });
 
 
         Route::group(['prefix' => 'reel'],function () {
 
-            Route::post('show', [ReelController::class , 'show']);
-            Route::post('store', [ReelController::class, 'store']);
-            Route::post('update', [ReelController::class, 'update']);
-            Route::post('destroy', [ReelController::class, 'destroy']);
-
+            Route::post('show', [\App\Http\Controllers\API\ReelController::class, 'show']);
+            Route::post('store', [\App\Http\Controllers\API\ReelController::class, 'store']);
+            Route::post('update', [\App\Http\Controllers\API\ReelController::class, 'update']);
+            Route::post('destroy', [\App\Http\Controllers\API\ReelController::class, 'destroy']);
         });
 
 
 
-
-
+    Route::group(['prefix' => 'comment'],function () {
+        Route::post('show', [\App\Http\Controllers\API\UserController::class, 'showComments']);
+        Route::post('store', [\App\Http\Controllers\API\UserController::class, 'createComment']);
+        Route::post('update', [\App\Http\Controllers\API\UserController::class, 'updateComment']);
+        Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'destroyComment']);
     });
 
+    Route::group(['prefix' => 'like'],function () {
+        Route::post('show', [\App\Http\Controllers\API\UserController::class, 'showLikes']);
+        Route::post('store', [\App\Http\Controllers\API\UserController::class, 'like']);
+        Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'unlike']);
+    });
+
+    Route::group(['prefix' => 'Following'],function () {
+        Route::post('show', [\App\Http\Controllers\API\UserController::class, 'showFollowings']);
+        Route::post('store', [\App\Http\Controllers\API\UserController::class, 'followUser']);
+        Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'removeFollowing']);
+    });
+    });
