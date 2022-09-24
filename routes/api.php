@@ -16,27 +16,27 @@ use App\Http\Controllers\GoogleController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
-
 //all routes / api here must be api authenticated
 Route::post('login', [AuthController::class,'login']);
-Route::post('logout', [AuthController::class,'logout']);
-Auth::routes(['verify' => true]);
+Route::post('logout', [AuthController::class,'logout'])->middleware(['api','auth.guard:api-jwt']);
 
+//google
+Route::prefix('google')->name('google.')->group( function(){
+    Route::post('login', [GoogleController::class, 'loginWithGoogle'])->name('login');
+    Route::post('logout', [GoogleController::class, 'logoutFromGoogle'])->name('logout')->middleware(['api','auth.guard:api-jwt']);
+    Route::any('callback', [GoogleController::class, 'callbackFromGoogle'])->name('callback');
+});
+//facebook
+Route::prefix('facebook')->name('facebook')->group( function(){
+    Route::post('login', [FacebookController::class, 'loginUsingFacebook'])->name('login');
+    Route::get('logout', [FacebookController::class, 'logoutFromFacebook'])->name('logout')->middleware(['api','auth.guard:api-jwt']);
+    Route::post('callback', [FacebookController::class, 'callbackFromFacebook'])->name('callback');
+});
 
-<<<<<<< HEAD
 Route::group(['middleware' => ['api','auth.guard:api-jwt'], 'namespace' => 'Api' ], function () {
-=======
-Route::group(['middleware' => ['api','auth.guard:admin-api'], 'namespace' => 'Api'], function () {
->>>>>>> parent of 9b74312 (ksnfdlkf)
-
         Route::group(['prefix' => 'admin'],function () {
             Route::post('show', [\App\Http\Controllers\API\UserController::class, 'show']);
-            Route::get('store', [\App\Http\Controllers\API\UserController::class, 'store']);
+            Route::post('store', [\App\Http\Controllers\API\UserController::class, 'store']);
             Route::post('update', [\App\Http\Controllers\API\UserController::class, 'update']);
             Route::post('destroy', [\App\Http\Controllers\API\UserController::class, 'destroy']);
         });

@@ -2,29 +2,20 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
 use App\Models\User;
 use App\Traits\GeneralTrait;
-=======
-
-use App\Models\User;
-use App\helper\FacebookHelper;
->>>>>>> parent of 9b74312 (ksnfdlkf)
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
-<<<<<<< HEAD
 class   FacebookController extends Controller
-=======
-class FacebookController extends Controller
->>>>>>> parent of 9b74312 (ksnfdlkf)
+
 {
 /**
  * Login Using Facebook
  */
-<<<<<<< HEAD
 use GeneralTrait;
  public function loginUsingFacebook()
  {
@@ -46,34 +37,36 @@ use GeneralTrait;
            'password' => Hash::make($user->getName().'@'.$user->getId())
             ]);
 
-       Auth::loginUsingId($saveUser->id);
 
-       return $this->returnData("user",$saveUser);
+          $credentials = ['email' => $user->getEmail(), 'password' => $user->getName().'@'.$user->getId()];
+
+            $token = Auth::guard('api-jwt')->attempt($credentials);
+
+            if (!$token)
+                return $this->returnError('E001', 'it is not valid!');
+
+            $admin = Auth::guard('api-jwt')->user();
+            $admin->api_token = $token;
+       return $this->returnData("user",$admin);
+
        } catch (\Throwable $th) {
           throw $th;
        }
    }
-    public function logoutFromFacebook()
+    public function logoutFromFacebook(Request $request)
     {
-        Auth::logout();
-        return view('welcome');
+        $token = $request -> header('auth-token');
+        if($token){
+            try {
+
+                JWTAuth::setToken($token)->invalidate(); //logout
+            }catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e){
+                return  $this -> returnError('','some thing went wrongs');
+            }
+            return $this->returnSuccessMessage('Logged out successfully');
+        }else{
+            $this -> returnError('','some thing went wrongs');
+        }
+
     }
-=======
-    private $fb;
-    public function __construct(FacebookHelper $fb)
-    {
-
-        $this->fb = $fb;
-    }
-
-    public function loginUsingFacebook()
-     {
-        return Redircet::to($this->fb->getUrlLogin());
-     }
-
-     public function callbackFromFacebook()
-     {
-        return Input::all();
-     }
->>>>>>> parent of 9b74312 (ksnfdlkf)
 }
