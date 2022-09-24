@@ -29,7 +29,7 @@ Route::prefix('google')->name('google.')->group( function(){
 //facebook
 Route::prefix('facebook')->name('facebook')->group( function(){
     Route::post('login', [FacebookController::class, 'loginUsingFacebook'])->name('login');
-    Route::get('logout', [FacebookController::class, 'logoutFromFacebook'])->name('logout')->middleware(['api','auth.guard:api-jwt']);
+    Route::post('logout', [FacebookController::class, 'logoutFromFacebook'])->name('logout')->middleware(['api','auth.guard:api-jwt']);
     Route::post('callback', [FacebookController::class, 'callbackFromFacebook'])->name('callback');
 });
 
