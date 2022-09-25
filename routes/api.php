@@ -18,7 +18,12 @@ use App\Http\Controllers\GoogleController;
 
 //all routes / api here must be api authenticated
 Route::post('login', [AuthController::class,'login']);
-Route::post('logout', [AuthController::class,'logout'])->middleware(['api','auth.guard:api-jwt']);
+Route::post('logout', [AuthController::class,'logout'])->middleware(['api','XssSanitizer','auth.guard:api-jwt']);
+//
+//Route::middleware(['auth:sanctum','XssSanitizer' ])->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
 
 //google
 Route::prefix('google')->name('google.')->group( function(){

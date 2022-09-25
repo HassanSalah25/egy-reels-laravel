@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 use Validator;
 
 
+
 class UserController extends Controller
 {
     use GeneralTrait;
